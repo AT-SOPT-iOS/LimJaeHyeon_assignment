@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     let box = UIView()
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(box)
+        view.backgroundColor = .red
         // Do any additional setup after loading the view.
         print("hi")
         box.snp.makeConstraints {
