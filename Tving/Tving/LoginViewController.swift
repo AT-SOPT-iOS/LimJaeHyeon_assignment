@@ -35,6 +35,7 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.setTitle("로그인하기", for: .normal)
         button.backgroundColor = .tvingRed
+        button.setUnderLine(range: NSRange(location: 0, length: 5))
       //  button.addTarget(self, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
         return button
     }()
@@ -80,12 +81,10 @@ class LoginViewController: UIViewController {
     }()
     
     //Todo:  Label vs Button // 이름 하단에 밑줄 알아보기
-    private let signUpButton: UILabel = {
-        let label = UILabel()
-        label.text = "아직 계정이 없으신가요?"
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        return label
+    private let signUpButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Tving 회원가입하기", for: .normal)
+        return button
     }()
 
 
@@ -93,6 +92,10 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         setupLayout()
+        if let text = titleLabel.text {
+                   let fullRange = NSRange(location: 0, length: text.count)
+                   titleLabel.setUnderLine(range: fullRange)
+               }
     }
     
     private func setupLayout() {
