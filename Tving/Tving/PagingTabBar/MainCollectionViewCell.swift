@@ -11,7 +11,16 @@ import SnapKit
 class MainCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MainCollectionViewCell"
-    
+    private let scrollView =  UIScrollView()
+    private let contentStack:UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 24
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
+    }()
+
 
     private lazy var mainPosterImage: UIImageView = {
         let imageView = UIImageView()
@@ -26,6 +35,17 @@ class MainCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.text = "오늘의 티빙 TOP 20"
         label.textColor = .white
+        label.textAlignment = .left
+        return label
+    }()
+    
+    private let realTimeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16.0, weight: .bold)
+        label.textAlignment = .center
+        label.text = "실시간 인기 LIVE"
+        label.textColor = .white
+        label.textAlignment = .left
         return label
     }()
     
@@ -49,6 +69,27 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         return collectionView
     }()
+    
+    private lazy var realTimeLivePopularCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
+        
+        let inset: CGFloat = 16.0
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/2.5, height: 146)
+        layout.sectionInset = UIEdgeInsets(top: inset, left: inset/2, bottom: inset, right: inset)
+        layout.minimumLineSpacing = 4.0
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(RealTimePopularLiveCell.self, forCellWithReuseIdentifier: RealTimePopularLiveCell.identifier)
+        
+        return collectionView
+    }()
+
         
     
     override init(frame: CGRect) {
@@ -62,26 +103,49 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-    
-        [mainPosterImage,top20Label,top20CollectionView].forEach { addSubview($0) }
+        self.addSubview(scrollView)
+        scrollView.addSubview(contentStack)
+        self.addSubview(realTimeLabel)
         
+        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView].forEach {
+            contentStack.addArrangedSubview($0)
+        }
+
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        contentStack.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        top20Label.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(8)
+            $0.trailing.equalToSuperview().offset(-8)
+        }
+
+
         mainPosterImage.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(400)
         }
-        
-        top20Label.snp.makeConstraints {
-            $0.top.equalTo(mainPosterImage.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().offset(8)
-        }
-        
         top20CollectionView.snp.makeConstraints {
-            $0.top.equalTo(top20Label.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.height.equalTo(150)
+        }
+        realTimeLivePopularCollectionView.snp.makeConstraints {
             $0.height.equalTo(150)
         }
         
+        realTimeLabel.snp.makeConstraints {
+            $0.top.equalTo(top20CollectionView.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().offset(8)
+        }
+        
         top20CollectionView.backgroundColor = .black
+        realTimeLivePopularCollectionView.backgroundColor = .black
+        
+        
+        
+
     }
 }
 
@@ -95,9 +159,18 @@ extension MainCollectionViewCell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Top20CollectionViewCell.identifier, for: indexPath) as? Top20CollectionViewCell else {return UICollectionViewCell()}
-        cell.configure(rank: indexPath.row + 1, image: UIImage(named: "harryPotter"))
-        return cell
+        if collectionView == top20CollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Top20CollectionViewCell.identifier, for: indexPath) as? Top20CollectionViewCell else {return UICollectionViewCell()}
+            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "harryPotter"))
+            return cell
+        } else if collectionView == realTimeLivePopularCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RealTimePopularLiveCell.identifier, for: indexPath) as? RealTimePopularLiveCell else {return UICollectionViewCell()}
+            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "transportLove"))
+            return cell
+        }
+        
+        return UICollectionViewCell()
+        
     }
 
 }
