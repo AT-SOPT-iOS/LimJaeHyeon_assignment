@@ -92,7 +92,8 @@ class LoginViewController: UIViewController {
         let label = UILabel()
         label.text = "아직 계정이 없으신가요?"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = .systemFont(ofSize: 14, weight: .bold)
+       // label.backgroundColor = .blue
         return label
     }()
     
@@ -100,7 +101,23 @@ class LoginViewController: UIViewController {
     private let signUpButton: UIButton = {
         let button = UIButton()
         button.setTitle("Tving 회원가입하기", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+        let fullRange = NSRange(location: 0, length: "Tving 회원가입하기".count)
+        button.setUnderLine(range:fullRange)
+     //   button.backgroundColor = .red
         return button
+    }()
+    
+    private var rightViewContainer: UIView?
+    
+    private let notYetStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 0
+        stackView.backgroundColor = .black
+        stackView.distribution = .fillEqually
+        return stackView
     }()
 
 
@@ -108,23 +125,24 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         setupLayout()
-        if let text = titleLabel.text {
-                   let fullRange = NSRange(location: 0, length: text.count)
-                   titleLabel.setUnderLine(range: fullRange)
-               }
-        
+
+    
         passwordTextField.delegate = self
         passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
     private func setupLayout() {
        // passwordTextField.rightView = secureButton
-        [titleLabel,idTextField,passwordTextField,loginButton,findStackView].forEach {
+        [titleLabel,idTextField,passwordTextField,loginButton,findStackView,notYetStackView].forEach {
             self.view.addSubview($0)
         }
         //addSubView 쓰면 뷰들이 수동으로 정렬됨
         [findIDLabel,borderView,findPWDLabel].forEach {
             self.findStackView.addArrangedSubview($0)
+        }
+        
+        [notYetLabel,signUpButton].forEach {
+            self.notYetStackView.addArrangedSubview($0)
         }
         
         titleLabel.snp.makeConstraints {
@@ -167,6 +185,13 @@ class LoginViewController: UIViewController {
             $0.width.equalTo(1)
 
         }
+        
+        notYetStackView.snp.makeConstraints {
+            $0.top.equalTo(findStackView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(50)
+        }
+        
+        
 
     }
 
@@ -175,11 +200,8 @@ class LoginViewController: UIViewController {
     private func togglePasswordVisibility() {
         passwordTextField.isSecureTextEntry.toggle()
         
-        if passwordTextField.isSecureTextEntry {
-                secureButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
-            } else {
-                secureButton.setImage(UIImage(systemName: "eye"), for: .normal)
-            }
+        passwordTextField.isSecureTextEntry ? secureButton.setImage(UIImage(systemName: "eye.slash"), for: .normal) :
+            secureButton.setImage(UIImage(systemName: "eye"), for: .normal)
         
     }
     
@@ -187,22 +209,27 @@ class LoginViewController: UIViewController {
     private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             // 컨테이너 뷰 생성
-            let rightViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 70, height: 30))
             
-            // clearButton 생성
-            let clearButton = UIButton(type: .custom)
-            clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-            clearButton.tintColor = .darkGray
-            clearButton.frame = CGRect(x: 10, y: 0, width: 30, height: 30)
-            clearButton.addTarget(self, action: #selector(clearTextField), for: .touchUpInside)
-            
-            // secureButton 위치 설정
-            secureButton.frame = CGRect(x: 40, y: 0, width: 30, height: 30)
-            
-            // 버튼들을 컨테이너에 추가
-            rightViewContainer.addSubview(clearButton)
-            rightViewContainer.addSubview(secureButton)
-            
+            if rightViewContainer == nil {
+                 rightViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 70, height: 30))
+                
+                // clearButton 생성
+                let clearButton = UIButton(type: .custom)
+                clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+                clearButton.tintColor = .darkGray
+                clearButton.frame = CGRect(x: 10, y: 0, width: 30, height: 30)
+                clearButton.addTarget(self, action: #selector(clearTextField), for: .touchUpInside)
+                
+                // secureButton 위치 설정
+                secureButton.frame = CGRect(x: 40, y: 0, width: 30, height: 30)
+                
+                // 버튼들을 컨테이너에 추가
+                rightViewContainer?.addSubview(clearButton)
+                rightViewContainer?.addSubview(secureButton)
+                
+                
+            }
+
             // 컨테이너를 rightView로 설정
             textField.rightView = rightViewContainer
             textField.rightViewMode = .always
@@ -224,7 +251,6 @@ class LoginViewController: UIViewController {
     private func loginButtonDidTap() {
         let mainViewController = MainViewController()
         let inputTextField = idTextField.text?.isEmpty == true ? nil : idTextField.text
-        print("inputTextField\(inputTextField)")
         mainViewController.setDisplayText(inputTextField)
         self.navigationController?.pushViewController(mainViewController, animated: true)
     }
@@ -234,3 +260,4 @@ extension LoginViewController: UITextFieldDelegate {
 
 
 }
+
