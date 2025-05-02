@@ -139,6 +139,27 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         return collectionView
     }()
+    
+    private lazy var TVCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
+        
+        let inset: CGFloat = 16.0
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/3.5, height: 45)
+        layout.sectionInset = UIEdgeInsets(top: inset + 10, left: inset/2, bottom: inset, right: inset)
+        layout.minimumLineSpacing = 8
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(TVCollectionViewCell.self, forCellWithReuseIdentifier: TVCollectionViewCell.identifier)
+        
+        return collectionView
+    }()
+
 
 
         
@@ -159,7 +180,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         self.addSubview(realTimeLabel)
         self.addSubview(realTimeMovieLabel)
         
-        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView,baseBallCollectionView].forEach {
+        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView,baseBallCollectionView,TVCollectionView].forEach {
             contentStack.addArrangedSubview($0)
         }
 
@@ -195,6 +216,10 @@ class MainCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(50)
         }
         
+        TVCollectionView.snp.makeConstraints {
+            $0.height.equalTo(45)
+        }
+        
         realTimeLabel.snp.makeConstraints {
             $0.top.equalTo(top20CollectionView.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(8)
@@ -210,9 +235,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         realTimeLivePopularCollectionView.backgroundColor = .black
         realTimeMovieCollectionView.backgroundColor = .black
         baseBallCollectionView.backgroundColor = .black
-        
-        
-        
+        TVCollectionView.backgroundColor = .black
 
     }
 }
@@ -244,7 +267,14 @@ extension MainCollectionViewCell: UICollectionViewDataSource {
             cell.configure(rank: indexPath.row + 1, image: UIImage(named: "image 103"))
             cell.backgroundColor = .white
             return cell
+        }    else if collectionView == TVCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TVCollectionViewCell.identifier, for: indexPath) as? TVCollectionViewCell else {return UICollectionViewCell()}
+            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "appleTV"))
+            cell.backgroundColor = .black
+            return cell
         }
+        
+        
         return UICollectionViewCell()
 
     }
