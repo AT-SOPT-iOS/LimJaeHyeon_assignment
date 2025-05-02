@@ -59,6 +59,26 @@ class MainCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let lifeMovieLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16.0, weight: .bold)
+        label.textAlignment = .center
+        label.text = "김가현PD의 인생작 TOP 5"
+        label.textColor = .white
+        label.textAlignment = .left
+        return label
+    }()
+    
+    private let noticeButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("공지 티빙 계정 공유 정책 추가 안내       >", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        button.backgroundColor = .darkGray
+        return button
+    }()
+
+    
 
     private lazy var top20CollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -159,6 +179,26 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         return collectionView
     }()
+    
+    private lazy var lifeMovieCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
+        
+        let inset: CGFloat = 16.0
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/2.5, height: 90)
+        layout.sectionInset = UIEdgeInsets(top: inset + 10, left: inset/2, bottom: inset, right: inset)
+        layout.minimumLineSpacing = 8
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(lifeMovieCollectionViewCell.self, forCellWithReuseIdentifier: lifeMovieCollectionViewCell.identifier)
+        
+        return collectionView
+    }()
 
 
 
@@ -179,8 +219,10 @@ class MainCollectionViewCell: UICollectionViewCell {
         scrollView.addSubview(contentStack)
         self.addSubview(realTimeLabel)
         self.addSubview(realTimeMovieLabel)
+        self.addSubview(lifeMovieLabel)
+        self.addSubview(noticeButton)
         
-        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView,baseBallCollectionView,TVCollectionView].forEach {
+        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView,baseBallCollectionView,TVCollectionView,lifeMovieCollectionView].forEach {
             contentStack.addArrangedSubview($0)
         }
 
@@ -220,6 +262,12 @@ class MainCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(45)
         }
         
+        lifeMovieCollectionView.snp.makeConstraints {
+            $0.height.equalTo(90)
+        }
+        
+        
+        
         realTimeLabel.snp.makeConstraints {
             $0.top.equalTo(top20CollectionView.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(8)
@@ -231,11 +279,23 @@ class MainCollectionViewCell: UICollectionViewCell {
             
         }
         
+        lifeMovieLabel.snp.makeConstraints {
+            $0.top.equalTo(TVCollectionView.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().offset(8)
+        }
+        
+        noticeButton.snp.makeConstraints {
+            $0.top.equalTo(lifeMovieCollectionView.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(50)
+        }
+        
         top20CollectionView.backgroundColor = .black
         realTimeLivePopularCollectionView.backgroundColor = .black
         realTimeMovieCollectionView.backgroundColor = .black
         baseBallCollectionView.backgroundColor = .black
         TVCollectionView.backgroundColor = .black
+        lifeMovieCollectionView.backgroundColor = .black
 
     }
 }
@@ -270,6 +330,11 @@ extension MainCollectionViewCell: UICollectionViewDataSource {
         }    else if collectionView == TVCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TVCollectionViewCell.identifier, for: indexPath) as? TVCollectionViewCell else {return UICollectionViewCell()}
             cell.configure(rank: indexPath.row + 1, image: UIImage(named: "appleTV"))
+            cell.backgroundColor = .black
+            return cell
+        }   else if collectionView == lifeMovieCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: lifeMovieCollectionViewCell.identifier, for: indexPath) as? lifeMovieCollectionViewCell else {return UICollectionViewCell()}
+            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "image"))
             cell.backgroundColor = .black
             return cell
         }
