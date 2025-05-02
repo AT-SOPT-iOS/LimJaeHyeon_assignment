@@ -119,6 +119,26 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         return collectionView
     }()
+    
+    private lazy var baseBallCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
+        
+        let inset: CGFloat = 16.0
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/4.5, height: 50)
+        layout.sectionInset = UIEdgeInsets(top: inset + 10, left: inset/2, bottom: inset, right: inset)
+        layout.minimumLineSpacing = 2
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(BaseballCollectionViewCell.self, forCellWithReuseIdentifier: BaseballCollectionViewCell.identifier)
+        
+        return collectionView
+    }()
 
 
         
@@ -139,7 +159,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         self.addSubview(realTimeLabel)
         self.addSubview(realTimeMovieLabel)
         
-        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView].forEach {
+        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView,baseBallCollectionView].forEach {
             contentStack.addArrangedSubview($0)
         }
 
@@ -171,6 +191,10 @@ class MainCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(150)
         }
         
+        baseBallCollectionView.snp.makeConstraints {
+            $0.height.equalTo(50)
+        }
+        
         realTimeLabel.snp.makeConstraints {
             $0.top.equalTo(top20CollectionView.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(8)
@@ -185,6 +209,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         top20CollectionView.backgroundColor = .black
         realTimeLivePopularCollectionView.backgroundColor = .black
         realTimeMovieCollectionView.backgroundColor = .black
+        baseBallCollectionView.backgroundColor = .black
         
         
         
@@ -213,6 +238,11 @@ extension MainCollectionViewCell: UICollectionViewDataSource {
         }  else if collectionView == realTimeMovieCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RealTimeMovieCollectionViewCell.identifier, for: indexPath) as? RealTimeMovieCollectionViewCell else {return UICollectionViewCell()}
             cell.configure(rank: indexPath.row + 1, image: UIImage(named: "signal"))
+            return cell
+        }   else if collectionView == baseBallCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BaseballCollectionViewCell.identifier, for: indexPath) as? BaseballCollectionViewCell else {return UICollectionViewCell()}
+            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "image 103"))
+            cell.backgroundColor = .white
             return cell
         }
         return UICollectionViewCell()
