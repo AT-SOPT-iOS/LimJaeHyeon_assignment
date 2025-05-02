@@ -49,6 +49,16 @@ class MainCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let realTimeMovieLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16.0, weight: .bold)
+        label.textAlignment = .center
+        label.text = "실시간 인기 영화"
+        label.textColor = .white
+        label.textAlignment = .left
+        return label
+    }()
+    
 
     private lazy var top20CollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -89,6 +99,27 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         return collectionView
     }()
+    
+    private lazy var realTimeMovieCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
+        
+        let inset: CGFloat = 16.0
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/3.5, height: 146)
+        layout.sectionInset = UIEdgeInsets(top: inset + 10, left: inset/2, bottom: inset, right: inset)
+        layout.minimumLineSpacing = 4.0
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(RealTimeMovieCollectionViewCell.self, forCellWithReuseIdentifier: RealTimeMovieCollectionViewCell.identifier)
+        
+        return collectionView
+    }()
+
 
         
     
@@ -106,8 +137,9 @@ class MainCollectionViewCell: UICollectionViewCell {
         self.addSubview(scrollView)
         scrollView.addSubview(contentStack)
         self.addSubview(realTimeLabel)
+        self.addSubview(realTimeMovieLabel)
         
-        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView].forEach {
+        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView].forEach {
             contentStack.addArrangedSubview($0)
         }
 
@@ -135,13 +167,24 @@ class MainCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(150)
         }
         
+        realTimeMovieCollectionView.snp.makeConstraints {
+            $0.height.equalTo(150)
+        }
+        
         realTimeLabel.snp.makeConstraints {
             $0.top.equalTo(top20CollectionView.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(8)
         }
         
+        realTimeMovieLabel.snp.makeConstraints {
+            $0.top.equalTo(realTimeLivePopularCollectionView.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().offset(8)
+            
+        }
+        
         top20CollectionView.backgroundColor = .black
         realTimeLivePopularCollectionView.backgroundColor = .black
+        realTimeMovieCollectionView.backgroundColor = .black
         
         
         
@@ -167,10 +210,13 @@ extension MainCollectionViewCell: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RealTimePopularLiveCell.identifier, for: indexPath) as? RealTimePopularLiveCell else {return UICollectionViewCell()}
             cell.configure(rank: indexPath.row + 1, image: UIImage(named: "transportLove"))
             return cell
+        }  else if collectionView == realTimeMovieCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RealTimeMovieCollectionViewCell.identifier, for: indexPath) as? RealTimeMovieCollectionViewCell else {return UICollectionViewCell()}
+            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "signal"))
+            return cell
         }
-        
         return UICollectionViewCell()
-        
+
     }
 
 }

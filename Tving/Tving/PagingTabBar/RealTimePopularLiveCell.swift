@@ -11,12 +11,7 @@ import SnapKit
 
 class RealTimePopularLiveCell: UICollectionViewCell {
     static let identifier = "RealTimePopularLiveCell"
-   
-    
-    
-    
-    
-    
+
     private let posterImage: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .black
