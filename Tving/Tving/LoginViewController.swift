@@ -249,7 +249,7 @@ class LoginViewController: UIViewController {
     
     @objc
     private func loginButtonDidTap() {
-        let mainViewController = MainViewController()
+        let mainViewController = WelcomeViewController()
         let inputTextField = idTextField.text?.isEmpty == true ? nil : idTextField.text
         mainViewController.setDisplayText(inputTextField)
         self.navigationController?.pushViewController(mainViewController, animated: true)
