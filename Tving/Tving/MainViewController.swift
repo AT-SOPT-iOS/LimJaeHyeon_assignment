@@ -59,7 +59,7 @@ final class MainViewController: UIViewController {
     private let categoryList:[String] = ["홈","드라마","예능","영화","스포츠","뉴스","음악"]
     
     private lazy var pagingTabBar = PagingTabBar(categoryTitleList:categoryList)
-    
+    private lazy var pagingView = PagingView(categoryTitleList: categoryList, pagingTabBar: pagingTabBar)
     
     
     
@@ -86,6 +86,7 @@ final class MainViewController: UIViewController {
         }
         
         self.view.addSubview(pagingTabBar)
+        self.view.addSubview(pagingView)
         
         
         logoStackView.snp.makeConstraints {
@@ -114,11 +115,17 @@ final class MainViewController: UIViewController {
         }
         
         pagingTabBar.snp.makeConstraints {
-            $0.top.equalTo(logoStackView.snp.bottom).offset(20)
+            $0.top.equalTo(logoStackView.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(50)
         }
         pagingTabBar.backgroundColor = .black
+        
+        pagingView.snp.makeConstraints {
+            $0.top.equalTo(pagingTabBar.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
  
     }
 }
