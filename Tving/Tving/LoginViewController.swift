@@ -27,7 +27,7 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-    private let passwordTextField: UITextField = {
+     let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Password를 입력해주세요"
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 16))
@@ -197,7 +197,7 @@ class LoginViewController: UIViewController {
 
     
     @objc
-    private func togglePasswordVisibility() {
+     func togglePasswordVisibility() {
         passwordTextField.isSecureTextEntry.toggle()
         
         passwordTextField.isSecureTextEntry ? secureButton.setImage(UIImage(systemName: "eye.slash"), for: .normal) :
@@ -206,7 +206,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc
-    private func textFieldDidChange(_ textField: UITextField) {
+     func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             // 컨테이너 뷰 생성
             
@@ -240,7 +240,7 @@ class LoginViewController: UIViewController {
     }
 
     @objc
-    private func clearTextField() {
+     func clearTextField() {
         passwordTextField.text = ""
         // 텍스트가 비었으므로 rightView도 제거
         passwordTextField.rightView = nil

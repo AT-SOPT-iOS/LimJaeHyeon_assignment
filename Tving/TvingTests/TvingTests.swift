@@ -9,28 +9,50 @@ import XCTest
 @testable import Tving
 
 final class TvingTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    var sut: LoginViewController!
+    
+    override func setUp() {
+        super.setUp()
+        sut = LoginViewController()
+        sut.loadViewIfNeeded()
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func test_togglePasswordVisibility_change() {
+        //Given
+        sut.passwordTextField.isSecureTextEntry = true
+        
+        //When
+        sut.togglePasswordVisibility()
+        
+        //Then
+        XCTAssertFalse(sut.passwordTextField.isSecureTextEntry)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func test_textFieldDidChange_setRightView() {
+       //Given
+        let textField = UITextField()
+        textField.text = "12345"
+        
+        //When
+        sut.textFieldDidChange(textField)
+        
+        //Then
+        XCTAssertNotNil(textField.rightView)
+        XCTAssertEqual(textField.rightViewMode, .always)
     }
+    
+    func test_textFieldDidChange_removesRightView_whenTextEmpty() {
+        // Given
+        let textField = UITextField()
+        textField.text = ""
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        // When
+        sut.textFieldDidChange(textField)
+
+        // Then
+        XCTAssertNil(textField.rightView)
+        XCTAssertEqual(textField.rightViewMode, .never)
     }
 
 }
