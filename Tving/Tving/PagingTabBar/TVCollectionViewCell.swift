@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TVCollectionViewCell: UICollectionViewCell,ConfigurableCell {
+class TVCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "TVCollectionViewCell"
 
@@ -41,6 +41,10 @@ class TVCollectionViewCell: UICollectionViewCell,ConfigurableCell {
 
 
     }
+    
+}
+
+extension TVCollectionViewCell: ConfigurableCell {
     func configure(rank: Int, image: UIImage?) {
         posterImage.image = image
     }

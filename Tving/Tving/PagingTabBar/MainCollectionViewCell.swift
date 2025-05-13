@@ -160,7 +160,17 @@ class MainCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var lifeMovieCollectionView: UICollectionView = {
-        let config = CollectionViewConfig(cellType: lifeMovieCollectionViewCell.self, reuseIdentifier: lifeMovieCollectionViewCell.identifier, itemWidthRatio: 2.5, itemHeight: 90, topInset: inset + 10, bottomInset: inset, leftInset: inset/2, rightInset: inset, spacing: 8, scrollDirection: .horizontal)
+        let config = CollectionViewConfig(
+            cellType: LifeMovieCollectionViewCell.self,
+            reuseIdentifier: LifeMovieCollectionViewCell.identifier,
+            itemWidthRatio: 2.5,
+            itemHeight: 90,
+            topInset: inset + 10,
+            bottomInset: inset,
+            leftInset: inset/2,
+            rightInset: inset,
+            spacing: 8,
+            scrollDirection: .horizontal)
         
         return makeCollectionView(config: config)
     }()
@@ -331,8 +341,8 @@ extension MainCollectionViewCell: UICollectionViewDataSource {
                 return dequeueAndConfigure(
                     collectionView: collectionView,
                     indexPath: indexPath,
-                    cellType: lifeMovieCollectionViewCell.self,
-                    identifier: lifeMovieCollectionViewCell.identifier,
+                    cellType: LifeMovieCollectionViewCell.self,
+                    identifier: LifeMovieCollectionViewCell.identifier,
                     imageName: "image",
                     backgroundColor: .black
                 )

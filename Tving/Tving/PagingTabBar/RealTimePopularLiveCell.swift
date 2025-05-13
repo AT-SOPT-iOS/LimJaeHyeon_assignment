@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class RealTimePopularLiveCell: UICollectionViewCell,ConfigurableCell  {
+class RealTimePopularLiveCell: UICollectionViewCell  {
     static let identifier = "RealTimePopularLiveCell"
 
     private let posterImage: UIImageView = {
@@ -102,6 +102,10 @@ class RealTimePopularLiveCell: UICollectionViewCell,ConfigurableCell  {
             }
 
     }
+
+}
+
+extension RealTimePopularLiveCell: ConfigurableCell {
     func configure(rank: Int, image: UIImage?) {
         rankLabel.text = "\(rank)"
         posterImage.image = image

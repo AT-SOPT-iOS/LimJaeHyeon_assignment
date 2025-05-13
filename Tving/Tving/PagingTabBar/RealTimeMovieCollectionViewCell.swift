@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class RealTimeMovieCollectionViewCell: UICollectionViewCell,ConfigurableCell {
+class RealTimeMovieCollectionViewCell: UICollectionViewCell {
     static let identifier = "RealTimePopularLiveCell"
 
     private let posterImage: UIImageView = {
@@ -41,6 +41,10 @@ class RealTimeMovieCollectionViewCell: UICollectionViewCell,ConfigurableCell {
 
 
     }
+
+}
+
+extension RealTimeMovieCollectionViewCell: ConfigurableCell {
     func configure(rank: Int, image: UIImage?) {
         posterImage.image = image
     }

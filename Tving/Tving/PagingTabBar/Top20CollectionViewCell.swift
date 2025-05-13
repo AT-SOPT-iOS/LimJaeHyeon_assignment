@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class Top20CollectionViewCell: UICollectionViewCell,ConfigurableCell {
+class Top20CollectionViewCell: UICollectionViewCell {
     
     static let identifier = "Top20CollectionViewCell"
     
@@ -77,10 +77,13 @@ class Top20CollectionViewCell: UICollectionViewCell,ConfigurableCell {
            rankLabel.adjustsFontSizeToFitWidth = true // 글씨가 공간에 맞춰 자동으로 줄어듬
            rankLabel.minimumScaleFactor = 0.5 // 최소 50% 크기로 줄어들게 설정
     }
+ 
+}
+
+extension Top20CollectionViewCell:ConfigurableCell {
     func configure(rank: Int, image: UIImage?) {
         rankLabel.text = "\(rank)"
         posterImage.image = image
     }
 }
-
 

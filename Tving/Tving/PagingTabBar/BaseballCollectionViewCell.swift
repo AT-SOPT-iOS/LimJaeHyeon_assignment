@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BaseballCollectionViewCell: UICollectionViewCell,ConfigurableCell {
+class BaseballCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "BaseballCollectionViewCell"
 
@@ -41,6 +41,10 @@ class BaseballCollectionViewCell: UICollectionViewCell,ConfigurableCell {
 
 
     }
+
+}
+
+extension BaseballCollectionViewCell: ConfigurableCell {
     func configure(rank: Int, image: UIImage?) {
         posterImage.image = image
     }
