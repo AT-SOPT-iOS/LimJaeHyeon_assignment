@@ -67,30 +67,28 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
+        setupAddSubView()
         setupUI()
-        
-       
     }
     
-    private func setupUI() {
-        self.view.addSubview(logoStackView)
+    private func setupAddSubView() {
+        [logoStackView,pagingTabBar,pagingView].forEach {
+            self.view.addSubview($0)
+        }
         
         [searchButton,iconImageView].forEach {
             self.buttonStackView.addArrangedSubview($0)
         }
         
-       
-        
         [logoImageView,spacerView,buttonStackView].forEach {
             self.logoStackView.addArrangedSubview($0)
         }
         
-        self.view.addSubview(pagingTabBar)
-        self.view.addSubview(pagingView)
-        
-        
+    }
+    
+    private func setupUI() {
+       
         logoStackView.snp.makeConstraints {
-           // $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.top.equalToSuperview().offset(60)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(78)
