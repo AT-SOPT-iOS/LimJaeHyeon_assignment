@@ -78,126 +78,91 @@ class MainCollectionViewCell: UICollectionViewCell {
         return button
     }()
 
-    
+    private let inset: CGFloat = 16.0
 
     private lazy var top20CollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
-        
-        let inset: CGFloat = 16.0
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/2.5, height: 146)
-        layout.sectionInset = UIEdgeInsets(top: inset, left: inset/2, bottom: inset, right: inset)
-        layout.minimumLineSpacing = 4.0
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.register(Top20CollectionViewCell.self, forCellWithReuseIdentifier: Top20CollectionViewCell.identifier)
-        
-        return collectionView
+        let config = CollectionViewConfig(
+            cellType: Top20CollectionViewCell.self,
+            reuseIdentifier: Top20CollectionViewCell.identifier,
+            itemWidthRatio: 2.5,
+            itemHeight: 146,
+            topInset: inset,
+            bottomInset: inset,
+            leftInset: inset/2,
+            rightInset: inset,
+            spacing: 4.0,
+            scrollDirection: .horizontal)
+        return makeCollectionView(config: config)
     }()
     
     private lazy var realTimeLivePopularCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
-        
-        let inset: CGFloat = 16.0
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/2.5, height: 146)
-        layout.sectionInset = UIEdgeInsets(top: inset, left: inset/2, bottom: inset, right: inset)
-        layout.minimumLineSpacing = 4.0
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.register(RealTimePopularLiveCell.self, forCellWithReuseIdentifier: RealTimePopularLiveCell.identifier)
-        
-        return collectionView
+        let config = CollectionViewConfig(
+            cellType: RealTimePopularLiveCell.self,
+            reuseIdentifier: RealTimePopularLiveCell.identifier,
+            itemWidthRatio: 2.5,
+            itemHeight: 146,
+            topInset: inset,
+            bottomInset: inset,
+            leftInset: inset/2,
+            rightInset: inset,
+            spacing: 4.0,
+            scrollDirection: .horizontal)
+      
+        return makeCollectionView(config: config)
     }()
     
     private lazy var realTimeMovieCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
-        
-        let inset: CGFloat = 16.0
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/3.5, height: 146)
-        layout.sectionInset = UIEdgeInsets(top: inset + 10, left: inset/2, bottom: inset, right: inset)
-        layout.minimumLineSpacing = 4.0
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.register(RealTimeMovieCollectionViewCell.self, forCellWithReuseIdentifier: RealTimeMovieCollectionViewCell.identifier)
-        
-        return collectionView
+        let config = CollectionViewConfig(
+            cellType: RealTimeMovieCollectionViewCell.self,
+            reuseIdentifier: RealTimeMovieCollectionViewCell.identifier,
+            itemWidthRatio: 3.5,
+            itemHeight: 146,
+            topInset: inset + 10,
+            bottomInset: inset,
+            leftInset:  inset/2,
+            rightInset: inset,
+            spacing: 4.0,
+            scrollDirection: .horizontal)
+
+        return makeCollectionView(config: config)
     }()
     
     private lazy var baseBallCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
-        
-        let inset: CGFloat = 16.0
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/4.5, height: 50)
-        layout.sectionInset = UIEdgeInsets(top: inset + 10, left: inset/2, bottom: inset, right: inset)
-        layout.minimumLineSpacing = 2
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.register(BaseballCollectionViewCell.self, forCellWithReuseIdentifier: BaseballCollectionViewCell.identifier)
-        
-        return collectionView
+        let config = CollectionViewConfig(
+            cellType: BaseballCollectionViewCell.self,
+            reuseIdentifier: BaseballCollectionViewCell.identifier,
+            itemWidthRatio: 4.5,
+            itemHeight: 50,
+            topInset: inset + 10,
+            bottomInset: inset,
+            leftInset: inset/2,
+            rightInset: inset,
+            spacing: 2,
+            scrollDirection: .horizontal)
+
+        return makeCollectionView(config: config)
     }()
     
     private lazy var TVCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
+        let config = CollectionViewConfig(
+            cellType: TVCollectionViewCell.self,
+            reuseIdentifier: TVCollectionViewCell.identifier,
+            itemWidthRatio: 3.5,
+            itemHeight: 45,
+            topInset: inset + 10,
+            bottomInset: inset,
+            leftInset: inset/2,
+            rightInset: inset,
+            spacing: 8,
+            scrollDirection: .horizontal)
         
-        let inset: CGFloat = 16.0
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/3.5, height: 45)
-        layout.sectionInset = UIEdgeInsets(top: inset + 10, left: inset/2, bottom: inset, right: inset)
-        layout.minimumLineSpacing = 8
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.register(TVCollectionViewCell.self, forCellWithReuseIdentifier: TVCollectionViewCell.identifier)
-        
-        return collectionView
+        return makeCollectionView(config: config)
     }()
     
     private lazy var lifeMovieCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal // scrollDirection의 기본값은 .vertical이다
+        let config = CollectionViewConfig(cellType: lifeMovieCollectionViewCell.self, reuseIdentifier: lifeMovieCollectionViewCell.identifier, itemWidthRatio: 2.5, itemHeight: 90, topInset: inset + 10, bottomInset: inset, leftInset: inset/2, rightInset: inset, spacing: 8, scrollDirection: .horizontal)
         
-        let inset: CGFloat = 16.0
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - inset*2.0)/2.5, height: 90)
-        layout.sectionInset = UIEdgeInsets(top: inset + 10, left: inset/2, bottom: inset, right: inset)
-        layout.minimumLineSpacing = 8
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.register(lifeMovieCollectionViewCell.self, forCellWithReuseIdentifier: lifeMovieCollectionViewCell.identifier)
-        
-        return collectionView
+        return makeCollectionView(config: config)
     }()
 
 
@@ -344,6 +309,32 @@ extension MainCollectionViewCell: UICollectionViewDataSource {
 
     }
 
+}
+
+extension MainCollectionViewCell {
+    func makeCollectionView(config:CollectionViewConfig) -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = config.scrollDirection
+        
+        let inset: CGFloat = 16.0
+        let width = (UIScreen.main.bounds.width - inset * 2)/config.itemWidthRatio
+        layout.itemSize = CGSize(width: width, height: config.itemHeight)
+        layout.sectionInset = UIEdgeInsets(top: config.topInset,
+                                           left: inset/2,
+                                           bottom: config.bottomInset,
+                                           right: inset)
+        layout.minimumLineSpacing = config.spacing
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(config.cellType, forCellWithReuseIdentifier: config.reuseIdentifier)
+        
+        return collectionView
+
+    }
 }
 
 
