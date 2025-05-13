@@ -275,39 +275,93 @@ extension MainCollectionViewCell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == top20CollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Top20CollectionViewCell.identifier, for: indexPath) as? Top20CollectionViewCell else {return UICollectionViewCell()}
-            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "harryPotter"))
-            return cell
-        } else if collectionView == realTimeLivePopularCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RealTimePopularLiveCell.identifier, for: indexPath) as? RealTimePopularLiveCell else {return UICollectionViewCell()}
-            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "transportLove"))
-            return cell
-        }  else if collectionView == realTimeMovieCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RealTimeMovieCollectionViewCell.identifier, for: indexPath) as? RealTimeMovieCollectionViewCell else {return UICollectionViewCell()}
-            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "signal"))
-            return cell
-        }   else if collectionView == baseBallCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BaseballCollectionViewCell.identifier, for: indexPath) as? BaseballCollectionViewCell else {return UICollectionViewCell()}
-            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "image 103"))
-            cell.backgroundColor = .white
-            return cell
-        }    else if collectionView == TVCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TVCollectionViewCell.identifier, for: indexPath) as? TVCollectionViewCell else {return UICollectionViewCell()}
-            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "appleTV"))
-            cell.backgroundColor = .black
-            return cell
-        }   else if collectionView == lifeMovieCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: lifeMovieCollectionViewCell.identifier, for: indexPath) as? lifeMovieCollectionViewCell else {return UICollectionViewCell()}
-            cell.configure(rank: indexPath.row + 1, image: UIImage(named: "image"))
-            cell.backgroundColor = .black
-            return cell
-        }
-        
-        
-        return UICollectionViewCell()
+
+        switch collectionView {
+            case top20CollectionView:
+                return dequeueAndConfigure(
+                    collectionView: collectionView,
+                    indexPath: indexPath,
+                    cellType: Top20CollectionViewCell.self,
+                    identifier: Top20CollectionViewCell.identifier,
+                    imageName: "harryPotter",
+                    backgroundColor: .clear
+                )
+
+            case realTimeLivePopularCollectionView:
+                return dequeueAndConfigure(
+                    collectionView: collectionView,
+                    indexPath: indexPath,
+                    cellType: RealTimePopularLiveCell.self,
+                    identifier: RealTimePopularLiveCell.identifier,
+                    imageName: "transportLove",
+                    backgroundColor: .clear
+                )
+
+            case realTimeMovieCollectionView:
+                return dequeueAndConfigure(
+                    collectionView: collectionView,
+                    indexPath: indexPath,
+                    cellType: RealTimeMovieCollectionViewCell.self,
+                    identifier: RealTimeMovieCollectionViewCell.identifier,
+                    imageName: "signal",
+                    backgroundColor: .clear
+                )
+
+            case baseBallCollectionView:
+                return dequeueAndConfigure(
+                    collectionView: collectionView,
+                    indexPath: indexPath,
+                    cellType: BaseballCollectionViewCell.self,
+                    identifier: BaseballCollectionViewCell.identifier,
+                    imageName: "image 103",
+                    backgroundColor: .white
+                )
+
+            case TVCollectionView:
+                return dequeueAndConfigure(
+                    collectionView: collectionView,
+                    indexPath: indexPath,
+                    cellType: TVCollectionViewCell.self,
+                    identifier: TVCollectionViewCell.identifier,
+                    imageName: "appleTV",
+                    backgroundColor: .black
+                )
+
+            case lifeMovieCollectionView:
+                return dequeueAndConfigure(
+                    collectionView: collectionView,
+                    indexPath: indexPath,
+                    cellType: lifeMovieCollectionViewCell.self,
+                    identifier: lifeMovieCollectionViewCell.identifier,
+                    imageName: "image",
+                    backgroundColor: .black
+                )
+
+            default:
+                return UICollectionViewCell()
+            }
 
     }
+    
+    private func dequeueAndConfigure<T: UICollectionViewCell>(
+        collectionView: UICollectionView,
+        indexPath: IndexPath,
+        cellType: T.Type,
+        identifier: String,
+        imageName: String,
+        backgroundColor: UIColor
+    ) -> UICollectionViewCell where T: ConfigurableCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? T else {
+            return UICollectionViewCell()
+        }
+
+        let rank = indexPath.row + 1
+        let image = UIImage(named: imageName)
+        cell.configure(rank: rank, image: image)
+        cell.backgroundColor = backgroundColor
+        return cell
+    }
+
 
 }
 

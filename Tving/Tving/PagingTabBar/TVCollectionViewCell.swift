@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TVCollectionViewCell: UICollectionViewCell {
+class TVCollectionViewCell: UICollectionViewCell,ConfigurableCell {
     
     static let identifier = "TVCollectionViewCell"
 

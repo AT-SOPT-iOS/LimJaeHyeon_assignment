@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class lifeMovieCollectionViewCell: UICollectionViewCell {
+class lifeMovieCollectionViewCell: UICollectionViewCell,ConfigurableCell {
     static let identifier = "lifeMovieCollectionViewCell"
 
     private let posterImage: UIImageView = {

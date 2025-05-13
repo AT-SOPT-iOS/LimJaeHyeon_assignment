@@ -19,3 +19,7 @@ struct CollectionViewConfig {
     let spacing: CGFloat
     let scrollDirection: UICollectionView.ScrollDirection
 }
+
+protocol ConfigurableCell {
+    func configure(rank: Int, image: UIImage?)
+}

@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class RealTimeMovieCollectionViewCell: UICollectionViewCell {
+class RealTimeMovieCollectionViewCell: UICollectionViewCell,ConfigurableCell {
     static let identifier = "RealTimePopularLiveCell"
 
     private let posterImage: UIImageView = {

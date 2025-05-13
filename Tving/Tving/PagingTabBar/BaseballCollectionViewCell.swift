@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BaseballCollectionViewCell: UICollectionViewCell {
+class BaseballCollectionViewCell: UICollectionViewCell,ConfigurableCell {
     
     static let identifier = "BaseballCollectionViewCell"
 
