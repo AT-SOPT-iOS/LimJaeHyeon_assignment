@@ -69,6 +69,7 @@ final class MainViewController: UIViewController {
         self.view.backgroundColor = .black
         setupAddSubView()
         setupUI()
+        searchButton.addTarget(self, action: #selector(searchButtonDidTap), for: .touchUpInside)
     }
     
     private func setupAddSubView() {
@@ -125,6 +126,11 @@ final class MainViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
  
+    }
+    
+    @objc func searchButtonDidTap() {
+         let vc = MovieViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
