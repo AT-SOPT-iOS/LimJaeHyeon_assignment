@@ -70,11 +70,17 @@ class MainCollectionViewCell: UICollectionViewCell {
     }()
     
     private let noticeButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("공지 티빙 계정 공유 정책 추가 안내       >", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.backgroundColor = .darkGray
+        var config = UIButton.Configuration.plain()
+        config.title = "공지 티빙 계정 공유 정책 추가 안내"
+        config.baseForegroundColor = .white
+        config.background.backgroundColor = .darkGray
+        config.image = UIImage(systemName: "chevron.right")
+        config.imagePlacement = .trailing
+        config.imagePadding = 8
+        config.titleAlignment = .center
+        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -20)
+
+        let button = UIButton(configuration: config, primaryAction: nil)
         return button
     }()
 
@@ -195,9 +201,9 @@ class MainCollectionViewCell: UICollectionViewCell {
         self.addSubview(realTimeLabel)
         self.addSubview(realTimeMovieLabel)
         self.addSubview(lifeMovieLabel)
-        self.addSubview(noticeButton)
         
-        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView,baseBallCollectionView,TVCollectionView,lifeMovieCollectionView].forEach {
+        
+        [mainPosterImage,top20Label, top20CollectionView, realTimeLivePopularCollectionView,realTimeMovieCollectionView,baseBallCollectionView,TVCollectionView,lifeMovieCollectionView,noticeButton].forEach {
             contentStack.addArrangedSubview($0)
         }
 
@@ -206,8 +212,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         }
 
         contentStack.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalToSuperview()
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
         }
         top20Label.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(8)
