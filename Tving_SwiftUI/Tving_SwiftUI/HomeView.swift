@@ -85,6 +85,45 @@ struct HomeView: View {
                     Spacer()
 
                 }
+                
+                VStack(spacing: 4) {
+                    HStack {
+                        Text("실시간 인기 영화")
+                            .font(.system(size: 15))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        Spacer()
+                        
+                        Text("더보기")
+                            .font(.system(size: 12))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                    }
+                    .padding(.horizontal, 16)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(0..<sampleData.count, id: \.self) { index in
+                                let data = sampleData[index]
+                                PosterView(posterImageName: data.poster)
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(0..<sampleData.count, id: \.self) { index in
+                                let data = sampleData[index]
+                                PosterView(posterImageName: data.poster)
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+                    Spacer()
+
+                }
 
                 .background(Color.black)
 
