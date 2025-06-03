@@ -115,13 +115,25 @@ struct HomeView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 0) {
                             ForEach(0..<sampleData.count, id: \.self) { index in
-                                let data = sampleData[index]
                                 BaseBallView(posterName: "image 103")
                             }
                         }
                         .padding(.horizontal, 16)
                     }
-                    .padding(.top, 10)
+                    .padding(.top, 16)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(0..<sampleData.count, id: \.self) { index in
+                             
+                                TVView(posterName: "appleTV")
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+                    .padding(.top, 16)
+                    
+                    
                     Spacer()
 
                 }
