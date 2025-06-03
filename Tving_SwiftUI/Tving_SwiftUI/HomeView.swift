@@ -8,6 +8,14 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    let sampleData = [
+           (rank: "1", poster: "transportLove", title: "JTBC", episode: "이혼숙려캠프 34화", rating: "27.2%"),
+           (rank: "2", poster: "transportLove", title: "tvN", episode: "사랑의 불시착 15화", rating: "21.7%"),
+           (rank: "3", poster: "transportLove", title: "KBS", episode: "태양의 후예 16화", rating: "19.8%"),
+           (rank: "4", poster: "transportLove", title: "SBS", episode: "도깨비 마지막화", rating: "18.5%"),
+           (rank: "5", poster: "transportLove", title: "MBC", episode: "스카이캐슬 20화", rating: "17.2%")
+       ]
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 16) {
@@ -40,13 +48,46 @@ struct HomeView: View {
                 }
                 .frame(height: 240)
                 
-                ForEach(0..<10) { index in
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.blue.opacity(0.3))
-                        .frame(height: 200)
-                        .overlay(Text("콘텐츠 \(index)").foregroundColor(.white))
+                
+                VStack(spacing: 0) {
+                    HStack {
+                        Text("실시간 인기 라이브")
+                            .font(.system(size: 15))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        Spacer()
+                        
+                        Text("더보기")
+                            .font(.system(size: 12))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                    }
+                    .padding(.horizontal, 16)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(0..<sampleData.count, id: \.self) { index in
+                                let data = sampleData[index]
+                                RealTimePopularLiveView(
+                                    rank: data.rank,
+                                    posterImageName: data.poster,
+                                    title: data.title,
+                                    episode: data.episode,
+                                    rating: data.rating
+                                )
+
+                                .frame(width: 200, height: 200)
+                            }
+                        }
                         .padding(.horizontal, 16)
+                    }
+                    Spacer()
+
                 }
+
+                .background(Color.black)
+
 
                 Spacer(minLength: 40)
             }
