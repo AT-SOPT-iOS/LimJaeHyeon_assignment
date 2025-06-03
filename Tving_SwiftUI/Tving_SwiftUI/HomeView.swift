@@ -105,8 +105,8 @@ struct HomeView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
                             ForEach(0..<sampleData.count, id: \.self) { index in
-                                let data = sampleData[index]
-                                PosterView(posterImageName: data.poster)
+                              //  let data = sampleData[index]
+                                PosterView(posterImageName: "signal")
                             }
                         }
                         .padding(.horizontal, 16)
@@ -132,6 +132,62 @@ struct HomeView: View {
                         .padding(.horizontal, 16)
                     }
                     .padding(.top, 16)
+                    
+                    
+                    HStack {
+                        Text("김가현 PD의 인생작 TOP 5")
+                            .font(.system(size: 15))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    .padding(.top, 16)
+                    .padding(.leading, 12)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(0..<sampleData.count, id: \.self) { index in
+                             
+                                LifeView(posterName: "image")
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+                    .padding(.top, 16)
+
+                    
+                    VStack {
+                        HStack {
+                            Text("공지")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 11))
+                            
+                            Text("티빙 계정 공유 정책 추가 안내")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 11))
+                            
+                            Spacer()
+                            
+                            Button {
+                               print("hi")
+                            } label: {
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 12, weight: .bold))
+                            }
+                        }
+                        
+                        .padding(.top,16)
+                        .frame(maxHeight: 50)
+                        Spacer()
+                    }
+                    .background(.gray3)
+                    .frame(height: 45)
+                    .padding(.top,12)
+                    .padding(.horizontal,8)
+                    
+                    
+                    
                     
                     
                     Spacer()
