@@ -48,7 +48,7 @@ struct PagingTabView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.black.edgesIgnoringSafeArea(.bottom))
         }
-        .background(Color.black.edgesIgnoringSafeArea(.top))
+        .background(Color.black)
     }
 }
 
@@ -57,8 +57,7 @@ struct PagingTabView: View {
 func TabContentView(tab: TabCategory) -> some View {
     switch tab {
     case .home:
-        Text("홈 콘텐츠")
-            .foregroundStyle(.white)
+        HomeView()
     case .drama:
         Text("드라마 콘텐츠")
             .foregroundStyle(.white)

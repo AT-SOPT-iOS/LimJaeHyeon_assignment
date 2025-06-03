@@ -11,7 +11,9 @@ import SwiftUI
 struct Tving_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            PagingTabView()
+            TvingMainView()
         }
     }
 }
+
+

@@ -10,14 +10,21 @@ import SwiftUI
 struct MainLogoView: View {
     var body: some View {
         HStack {
-            Image("tvingLogo")
-                .frame(width: 191,height: 78)
+            Image("TVING")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 191, height: 78)
             Spacer()
             Image("Search")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 30,height: 30)
             Image("icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 30,height: 30)
         }
+        .background(.black)
     }
 }
 
